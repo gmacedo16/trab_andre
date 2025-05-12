@@ -1,0 +1,27 @@
+name: Deploy Flask App via SSH
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Conectar via SSH e fazer deploy
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ 20.172.67.239 }}
+        username: ${{ gmacedo }}
+        key: ${{ gmacedo123 }}
+        script: |
+          cd ~/flask-api
+          git pull
+          docker stop flask-api || true
+          docker rm flask-api || true
+          docker build -t flask-api .
+          docker run -d -p 80:80 --name flask-api flask-api

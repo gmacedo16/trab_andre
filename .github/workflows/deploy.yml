@@ -16,7 +16,7 @@ jobs:
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ 20.172.67.239 }}
-        username: ${{ gmacedo }}
+        username: ${{ azureusser }}
         key: ${{ gmacedo123 }}
         script: |
           cd ~/flask-api

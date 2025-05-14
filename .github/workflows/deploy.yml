@@ -9,21 +9,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-    - name: Conectar via SSH e fazer deploy
-      uses: appleboy/ssh-action@v1.0.3
-      with:
+      - name: Conectar via SSH e fazer deploy
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-
-        script: |
-          cd ~/flask-api
-          git pull
-          docker stop flask-api || true
-          docker rm flask-api || true
-          docker build -t flask-api .
-          docker run -d -p 80:80 --name flask-api flask-api
+          script: |
+            cd ~/flask-api
+            git pull
+            docker stop flask-api || true
+            docker rm flask-api || true
+            docker build -t flask-api .
+            docker run -d -p 80:80 --name flask-api flask-api
